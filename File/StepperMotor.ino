@@ -1,21 +1,30 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial StepMotor(0,1);
+SoftwareSerial ServoMotor(10,11);
+
 const int dirPin = 3;
 const int stepPin = 4;
+const int ServoKesmePin = 6;
 long rastgele;
 char value = ',';
-int x, y, d, b, c;
+int x, y, b, c, d;
+int servoA, servoB;
 
-void durdurma(){
-  int xdurdurma = 0;
-  
-}
 void setup()
 {
   Serial.begin(9600);
+  StepMotor.begin(9600);
+  ServoMotor.begin(9600);
   pinMode(stepPin, OUTPUT);
   pinMode(dirPin, OUTPUT);
+  pinMode(ServoKesmePin, OUTPUT);
+  pinMode(8, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(8), kesme, FALLING);
 }
 void loop()
 {
+  StepMotor.listen();
   while(Serial.available() > 0)
   {
     rastgele = Serial.parseInt();
@@ -137,5 +146,12 @@ void loop()
           } 
       delay(200);
     }
+  }
+}
+
+void kesme(){
+  ServoMotor.listen();
+  if(Serial.read()==3){
+    digitalWrite(6,!digitalRead(6));
   }
 }
