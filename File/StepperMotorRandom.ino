@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define rastgeleMax 2
+#define rastgeleMax 3
 #define rastgeleMin 1
 
 String value = ",";
